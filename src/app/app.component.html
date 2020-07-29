@@ -1,0 +1,68 @@
+<div class="pdf-viewer-wrap">
+
+  <div class="pdf-viewer-controls-wrap">
+    <h2>PDF Viewer Controls</h2>
+    <div class="pdf-viewer-controls">
+      <div class="pdfv-control" *ngIf="renderText">
+        Search:
+        <input #queryInp id="pdfQueryInput" type="text" placeholder="Search..." [value]="pdfQuery"
+          (input)="searchQueryChanged($event.target.value)" (keyup.enter)="searchQueryChanged(queryInp.value)">
+      </div>
+      <div class="pdfv-control">
+        Select PDF:
+        <input (change)="onFileSelected()" type="file" id="file">
+        <div>Total Pages:{{totalPages}}</div>
+      </div>
+      <div class="pdfv-control">
+        <button (click)="originalSize = !originalSize">[original-size]="{{originalSize}}"</button>
+      </div>
+      <div class="pdfv-control">
+        <button (click)="fitToPage = !fitToPage">[fit-to-page]="{{fitToPage}}"</button>
+      </div>
+      <div class="pdfv-control">
+        <button (click)="showAll = !showAll">[show-all]="{{showAll}}"</button>
+      </div>
+      <div class="pdfv-control">
+        <button (click)="autoresize = !autoresize">[autoresize]="{{autoresize}}"</button>
+      </div>
+      <div class="pdfv-control">
+        <button (click)="showBorders = !showBorders">[show-borders]="{{showBorders}}"</button>
+      </div>
+      <div class="pdfv-control">
+        <button (click)="renderText = !renderText">[render-text]="{{renderText}}"</button>
+      </div>
+      <div class="pdfv-control">
+        Render Text Mode
+        <select name="renderTextMode" [(ngModel)]="renderTextMode">
+          <option [value]="o" *ngFor="let o of renderTextModes">{{o}}</option>
+        </select>
+        <!-- <button (click)="renderTextMode = !renderTextMode">[render-text-mode]="{{renderTextMode}}"</button> -->
+      </div>
+      <div class="pdfv-control">
+        <button (click)="zoomOut()">-</button>&nbsp;&nbsp;<button (click)="zoomIn()">+</button>&nbsp;
+        zoom (*{{zoom}})
+      </div>
+      <div class="pdfv-control">
+        zoom-scale
+        <select name="zoomScales" [(ngModel)]="zoomScale">
+          <option [value]="o" *ngFor="let o of zoomScales">{{o}}</option>
+        </select>
+      </div>
+
+      <div class="pdfv-control">
+        <button (click)="rotateDoc()">🔄</button>&nbsp;
+        Rotation (*{{rotation}}°)
+      </div>
+    </div>
+  </div>
+
+  <div class="pdf-viewer-viewer-window">
+    <pdf-viewer [src]="pdfSrc" [render-text]="renderText" [render-text-mode]="renderTextMode" [rotation]="rotation"
+      [zoom]="zoom" [zoom-scale]="zoomScale" [original-size]="originalSize" [fit-to-page]="fitToPage"
+      [show-all]="showAll" [autoresize]="autoresize" [show-borders]="showBorders"
+      (after-load-complete)="callBackFn($event)" (page-rendered)="pageRendered($event)"
+      (text-layer-rendered)="textLayerRendered($event)" (error)="onError($event)" (on-progress)="onProgress($event)">
+    </pdf-viewer>
+  </div>
+
+</div>
